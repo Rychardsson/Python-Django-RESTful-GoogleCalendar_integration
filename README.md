@@ -1,1 +1,1 @@
-# Python-Django-RESTful
+# Python-Django-RESTful-GoogleCalendar_integration
