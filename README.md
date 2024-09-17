@@ -38,6 +38,11 @@ pip install django djangorestframework google-auth google-auth-oauthlib google-a
 ```
 
 ## Configuração do Banco de Dados
+Acesse o diretório: gestor_de_tarefas
+
+```bash
+python cd gestor_de_tarefas
+```
 ### 1. Criar Migrações
 Primeiro, você precisa criar as migrações, que geram arquivos indicando as alterações na estrutura do banco de dados:
 ```bash
