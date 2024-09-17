@@ -1,6 +1,6 @@
 # Task Management with Google Calendar
 
-# API Restful para criação de tarefas e integração com o Google Calendar
+API Restful para criação de tarefas e integração com o Google Calendar
 
 ## Pré-requisitos
 Certifique-se de ter os seguintes itens instalados em seu sistema:
