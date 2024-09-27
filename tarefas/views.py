@@ -2,6 +2,7 @@ from rest_framework import viewsets
 from rest_framework import filters
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import IsAuthenticated
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -12,6 +13,7 @@ from .serializers import TaskSerializer
 from .filters import TaskFilter
 
 class TaskViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
