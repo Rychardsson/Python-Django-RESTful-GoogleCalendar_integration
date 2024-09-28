@@ -38,18 +38,30 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     def add_to_calendar(self, task):
         service = self.authenticate_google_calendar()
-        event = {
-        'summary': task.title,
-        'description': task.description,
-        'start': {
-            'dateTime': f"{task.date}T{task.time}",
-            'timeZone': 'America/Sao_Paulo', 
-        },
-        'end': {
-            'dateTime': f"{task.date}T{task.time}",
-            'timeZone': 'America/Sao_Paulo',
-        }
-    }
+        if task.time:
+            event = {
+                'summary': task.title,
+                'description': task.description,
+                'start': {
+                    'dateTime': f"{task.date}T{task.time}",
+                    'timeZone': 'America/Sao_Paulo',
+                },
+                'end': {
+                    'dateTime': f"{task.date}T{task.time}",
+                    'timeZone': 'America/Sao_Paulo',
+                }
+            }
+        else:
+            event = {
+                'summary': task.title,
+                'description': task.description,
+                'start': {
+                    'date': task.date.isoformat(), 
+                },
+                'end': {
+                    'date': task.date.isoformat(),
+                }
+            }
 
         created_event = service.events().insert(calendarId='primary', body=event).execute()
         task.google_calendar_id = created_event.get('id')
