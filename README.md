@@ -133,124 +133,125 @@ Agora que o servidor está em execução, você pode testar a API com o Insomnia
     - Substitua `{id}` pelo ID da tarefa que você deseja excluir.
     - Clique em Send.
 
-    ## Autenticação JWT (JSON Web Token)
+## Autenticação JWT (JSON Web Token)
 
-    A autenticação JWT (JSON Web Token) foi implementada para garantir que apenas usuários autenticados possam acessar a API.
+A autenticação JWT (JSON Web Token) foi implementada para garantir que apenas usuários autenticados possam acessar a API.
 
-    ### Gerando um Token JWT
+### Gerando um Token JWT
 
-    Faça uma requisição POST para `/api/token/` com as credenciais do usuário:
+Faça uma requisição POST para `/api/token/` com as credenciais do usuário:
 
-    ```json
-    POST /api/token/
-    {
-        "username": "seu_username",
-        "password": "sua_senha"
-    }
-    ```
+```json
+POST /api/token/
+{
+    "username": "seu_username",
+    "password": "sua_senha"
+}
+```
 
-    O servidor responderá com um token de acesso e um token de atualização:
+O servidor responderá com um token de acesso e um token de atualização:
 
-    ```json
-    {
-        "access": "token_de_acesso",
-        "refresh": "token_de_atualizacao"
-    }
-    ```
+```json
+{
+    "access": "token_de_acesso",
+    "refresh": "token_de_atualizacao"
+}
+```
 
-    ### Usando o Token JWT
+### Usando o Token JWT
 
-    Ao fazer requisições autenticadas, adicione o token no cabeçalho da requisição:
+Ao fazer requisições autenticadas, adicione o token no cabeçalho da requisição:
 
-    ```bash
-    Authorization: Bearer <seu_token_de_acesso>
-    ```
+ ```bash
+ Authorization: Bearer <seu_token_de_acesso>
+ ```
 
-    ### Atualizando o Token JWT
+### Atualizando o Token JWT
 
-    Caso o token de acesso expire, você pode atualizá-lo fazendo uma requisição POST para `/api/token/refresh/` com o token de atualização:
+Caso o token de acesso expire, você pode atualizá-lo fazendo uma requisição POST para `/api/token/refresh/` com o token de atualização:
 
-    ```json
-    POST /api/token/refresh/
-    {
-        "refresh": "token_de_atualizacao"
-    }
-    ```
-    ## Testes (TDD)
+```json
+POST /api/token/refresh/
+{
+    "refresh": "token_de_atualizacao"
+}
+```
+## Testes (TDD)
 
-    Este projeto foi desenvolvido utilizando Test-Driven Development (TDD), uma abordagem onde os testes são escritos antes da implementação do código.
+Este projeto foi desenvolvido utilizando Test-Driven Development (TDD), uma abordagem onde os testes são escritos antes da implementação do código.
 
-    ### Executando os Testes
+### Executando os Testes
 
-    Os testes automatizados garantem que o sistema funcione corretamente e cobrem as operações CRUD de tarefas, além da integração com o Google Calendar.
+Os testes automatizados garantem que o sistema funcione corretamente e cobrem as operações CRUD de tarefas, além da integração com o Google Calendar.
 
-    Para rodar os testes, use o comando:
+Para rodar os testes, use o comando:
 
-    ```bash
-    python manage.py test
-    ```
+```bash
+python manage.py test
+```
 
-    ### Exemplos de Testes
+### Exemplos de Testes
 
-    Teste de Criação de Tarefa:
+Teste de Criação de Tarefa:
 
-    ```python
-    def test_create_task(self):
-        url = reverse('tasks-list')
-        data = {'title': 'New Task', 'description': 'New Description', 'date': '2024-09-22'}
+```python
+def test_create_task(self):
+    url = reverse('tasks-list')
+    data = {'title': 'New Task', 'description': 'New Description', 'date': '2024-09-22'}
 
-        response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-    ```
+    response = self.client.post(url, data, format='json')
+    self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+```
 
-    Teste de Listagem de Tarefas:
+Teste de Listagem de Tarefas:
 
-    ```python
-    def test_get_tasks(self):
-        url = reverse('tasks-list')
-        response = self.client.get(url, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-    ```
+```python
+def test_get_tasks(self):
+    url = reverse('tasks-list')
+    response = self.client.get(url, format='json')
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    self.assertEqual(len(response.data), 1)
+```
 
-    Teste de Integração com o Google Calendar:
+Teste de Integração com o Google Calendar:
 
-    ```python
-    def test_create_task_add_to_google_calendar(self):
-        url = reverse('tasks-list')
-        data = {'title': 'Meeting', 'description': 'Project meeting', 'date': '2024-10-01', 'time': '14:00:00'}
-        response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-    ```
+```python
+def test_create_task_add_to_google_calendar(self):
+    url = reverse('tasks-list')
+    data = {'title': 'Meeting', 'description': 'Project meeting', 'date': '2024-10-01', 'time': '14:00:00'}
+    response = self.client.post(url, data, format='json')
+    self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+```
 
-    ## Rotas da API
+## Rotas da API
 
-    ### Tarefas
-    - POST `/api/tasks/` - Cria uma nova tarefa
-    - GET `/api/tasks/` - Lista todas as tarefas
-    - GET `/api/tasks/{id}/` - Retorna os detalhes de uma tarefa específica
-    - PUT `/api/tasks/{id}/` - Atualiza uma tarefa existente
-    - DELETE `/api/tasks/{id}/` - Deleta uma tarefa
+### Tarefas
+- POST `/api/tasks/` - Cria uma nova tarefa
+- GET `/api/tasks/` - Lista todas as tarefas
+- GET `/api/tasks/{id}/` - Retorna os detalhes de uma tarefa específica
+- PUT `/api/tasks/{id}/` - Atualiza uma tarefa existente
+- DELETE `/api/tasks/{id}/` - Deleta uma tarefa
 
-    - POST `/api/token/refresh/` - Atualiza o token JWT
+- POST /api/token/ - Gera um token JWT
+- POST `/api/token/refresh/` - Atualiza o token JWT
 
-    ## Conclusão
+## Conclusão
 
-    Com este projeto, você pode gerenciar tarefas de forma eficiente, com integração ao Google Calendar e autenticação JWT. O uso de TDD garante a qualidade e a confiabilidade do código ao longo do desenvolvimento.
+  Com este projeto, você pode gerenciar tarefas de forma eficiente, com integração ao Google Calendar e autenticação JWT. O uso de TDD garante a qualidade e a confiabilidade do código ao longo do desenvolvimento.
 
-    ## Licença
+## Licença
 
-    MIT License
+  MIT License
 
-    ```
-    Copyright (c) 2024 [Rychardsson]
+  ```
+  Copyright (c) 2024 [Rychardsson]
 
-    Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-    ```
+  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+  ```
 
-    The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-    ```
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-    ```
+  ```
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  ```
 
